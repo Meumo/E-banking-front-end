@@ -26,7 +26,7 @@ export class NewAccountComponent implements OnInit {
     this.newAccountFormGroup = this.fb.group({
       accountType: this.fb.control(null),
       balance: this.fb.control(0),
-      OverDraft: this.fb.control(0),
+      overDraft: this.fb.control(0),
       interestRate: this.fb.control(0)
     });
   }
@@ -46,7 +46,7 @@ export class NewAccountComponent implements OnInit {
           }
         });
     }else if(this.newAccountFormGroup.value.accountType=='CURRENT ACCOUNT') {
-      this.accountService.saveCurrentBankAccount(this.newAccountFormGroup.value.balance, customerId, this.newAccountFormGroup.value.interestRate)
+      this.accountService.saveCurrentBankAccount(this.newAccountFormGroup.value.balance, customerId, this.newAccountFormGroup.value.overDraft)
         .subscribe({
           next: (data) => {
             this.savedAccount = data;

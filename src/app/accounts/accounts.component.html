@@ -14,13 +14,6 @@
               </button>
             </div>
           </form>
-          <ng-template #errorTemplate>
-            <ng-container *ngIf="errorMessage">
-              <div class="text-danger">
-                {{errorMessage}}
-              </div>
-            </ng-container>
-          </ng-template>
           <ng-container *ngIf="accountObservable | async as accountDetails; else errorTemplate">
             <div class="mb-2">
               <label>Account Id : </label>
@@ -53,6 +46,13 @@
               </li>
             </ul>
           </ng-container>
+          <ng-template #errorTemplate>
+            <ng-container *ngIf="errorMessage">
+              <div class="text-danger">
+                {{errorMessage}}
+              </div>
+            </ng-container>
+          </ng-template>
         </div>
       </div>
     </div>

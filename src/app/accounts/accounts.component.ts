@@ -18,15 +18,15 @@ export class AccountsComponent implements OnInit {
   accountObservable!: Observable<AccountDetails>;
   operationFormGroup!: FormGroup;
   errorMessage!: string;
-  accounts: AccountCustomer | undefined;
+  account: AccountCustomer | undefined;
 
   constructor(private fb: FormBuilder, private accountService: AccountService, private router: Router) {
-    this.accounts = this.router.getCurrentNavigation()?.extras.state as AccountCustomer;
+    this.account = this.router.getCurrentNavigation()?.extras.state as AccountCustomer;
   }
 
   ngOnInit(): void {
-    if (this.accounts != undefined) {
-      this.accountObservable = this.accountService.getAccount(this.accounts.id, this.currentPage, this.pageSize)
+    if (this.account != undefined) {
+      this.accountObservable = this.accountService.getAccount(this.account.id, this.currentPage, this.pageSize)
         .pipe(catchError(err => {
           this.errorMessage = err.message;
           return throwError(err);
@@ -44,9 +44,9 @@ export class AccountsComponent implements OnInit {
   }
 
   handleSearchAccount() {
-    if (this.accounts != undefined) {
-      this.accountFormGroup.value.accountId = this.accounts.id;
-    } else if (this.accounts == undefined) {
+    if (this.account != undefined) {
+      this.accountFormGroup.value.accountId = this.account.id;
+    } else if (this.account == undefined) {
       let accountId = this.accountFormGroup.value.accountId;
       this.accountObservable = this.accountService.getAccount(accountId, this.currentPage, this.pageSize)
         .pipe(catchError(err => {
@@ -54,7 +54,8 @@ export class AccountsComponent implements OnInit {
           return throwError(err);
         }));
     }
-    this.accounts=undefined;
+    this.account=undefined;
+    this.accountFormGroup.reset();
   }
 
   goToPage(page: number) {
@@ -63,7 +64,7 @@ export class AccountsComponent implements OnInit {
   }
 
   handleAccountOperation() {
-    if (this.accounts != undefined) this.accountFormGroup.value.accountId = this.accounts.id;
+    if (this.account != undefined) this.accountFormGroup.value.accountId = this.account.id;
     let accountId: string = this.accountFormGroup.value.accountId;
     if (this.operationFormGroup.value.operationType == 'DEBIT') {
       this.accountService.debit(accountId, this.operationFormGroup.value.amount, this.operationFormGroup.value.description)
